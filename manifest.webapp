@@ -1,0 +1,24 @@
+{
+  "name": "cardDav sync",
+  "description": "cardDav sync",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "/asset/icon/icon-128.png",
+    "512": "/asset/icon/icon-512.png"
+  },
+  "developer": {
+    "name": "platane",
+    "url": "platane.me"
+  },
+  "default_locale": "en",
+  "type": "privileged",
+  "permissions": {
+    "contacts": {
+      "description": "sync with the cardDAV server",
+      "access": "readcreate"
+    },
+    "systemXHR" : {
+      "description" : "Required to access remote api"
+    }
+  }
+}

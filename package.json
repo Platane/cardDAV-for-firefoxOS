@@ -1,0 +1,22 @@
+{
+  "name": "cardDav-sync",
+  "version": "1.0.0",
+
+  "description": "cardDav sync",
+
+  "author": "Platane <me@platane.me>",
+
+  "dependencies": {
+    "promise" : "*"
+  },
+
+  "devDependencies" : {
+    "jasmine-node" : "git://github.com/mhevery/jasmine-node.git#Jasmine2.0",
+    "browserify" : "*"
+  },
+
+  "scripts" : {
+    "test" : "node ./node_modules/jasmine-node/bin/jasmine-node --matchAll ./specs/",
+    "prepublish" : "node ./node_modules/browserify/bin/cmd.js js/app.js -o js/bundle.js --debug"
+  }
+}
