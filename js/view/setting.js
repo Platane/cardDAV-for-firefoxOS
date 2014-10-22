@@ -7,50 +7,39 @@ var Abstract = require('../utils/Abstract')
   , propertiesControler = require('../controler/setting/properties')
 
 var tpl = [
-/*
-    '<section role="region">',
-      '<header>',
-        '<menu type="toolbar">',
-          '<a href="#"><span class="icon icon-edit">edit</span></a>',
-          '<a href="#"><span class="icon icon-add">add</span></a>',
-        '</menu>',
-        '<h1>Messages</h1>',
-      '</header>',
-    '</section>',*/
+    '<section class="gaia-list fit scroll sticky">',
+        '<article>',
+            '<header>CardDAV server</header>',
+            '<ul>',
 
-'<section class="gaia-list fit scroll sticky">',
-    '<article>',
-        '<header>CardDAV server</header>',
-        '<ul>',
+                '<li>',
+                    '<div>',
+                        '<p><em>server URL</em></p>',
+                        '<input data-property="url" size="100" type="text" placeholder="url" required="">',
+                    '</div>',
+                '</li>',
 
-            '<li>',
-                '<div>',
-                    '<p><em>server URL</em></p>',
-                    '<input data-property="url" size="100" type="text" placeholder="url" required="">',
-                '</div>',
-            '</li>',
-
-            '<li>',
-                '<div>',
-                    '<p><em>Authentification</em></p>',
-                    '<input data-property="login" size="100" type="text" placeholder="login" >',
-                    '<input data-property="password" size="100" type="password" placeholder="password" >',
-                '</div>',
-            '</li>',
-            /*
-            '<li>',
-                '<p>',
-                    '<label class="pack-checkbox">',
-                        '<input type="checkbox">',
-                        '<span></span>',
-                    '</label>',
-                    '<em>show advanced</em>',
-                '</p>',
-            '</li>',
-            */
-        '</ul>',
-    '</article>',
-'</section>',
+                '<li>',
+                    '<div>',
+                        '<p><em>Authentification</em></p>',
+                        '<input data-property="login" size="100" type="text" placeholder="login" >',
+                        '<input data-property="password" size="100" type="password" placeholder="password" >',
+                    '</div>',
+                '</li>',
+                /*
+                '<li>',
+                    '<p>',
+                        '<label class="pack-checkbox">',
+                            '<input type="checkbox">',
+                            '<span></span>',
+                        '</label>',
+                        '<em>show advanced</em>',
+                    '</p>',
+                '</li>',
+                */
+            '</ul>',
+        '</article>',
+    '</section>',
 ].join('')
 
 

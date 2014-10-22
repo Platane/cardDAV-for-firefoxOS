@@ -1,6 +1,4 @@
-var cds = cds || {}
-cds.model = cds.model || {}
-cds.model.cardDAV = (function(){
+var Abstract = require('../utils/Abstract')
 
 	/*
 	 * Object attributes are
@@ -20,15 +18,31 @@ cds.model.cardDAV = (function(){
 	 *     category2 ,
 	 *     ...
 	 *  ]
-	 *  
+	 *
 	 *  photo
-	 */  
+	 */
 
-	var parser = cds.utils.CardDAVParser
+var copy = function( o ){
 
-	return Object.create( cds.model.Abstract ).extend({
+	//copy tel
+	this.tel = {}
+	for( var i in o.tel||{} )
+		this.tel[i] = o.tel[i]
+
+	// copy category
+	this.category = o.category.split()
+
+	this.photo = o.photo
+
+	this.email = o.email
+
+	this.lastModified = new Date( o.lastModified || 0 )
+}
 
 
+module.exports = Object.create( Abstract ).extend({
 
-	})
-})()
+	copy : copy,
+
+
+})

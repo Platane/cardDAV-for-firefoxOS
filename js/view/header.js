@@ -29,6 +29,9 @@ var updateState = function(){
     var exState = this._state || '',
         newState = this.model.app.state
 
+
+    this._state = newState
+
     if( newState == exState )
         return
 
@@ -45,6 +48,7 @@ var updateState = function(){
             dom.addClass( this.dom.querySelector('[data-action=fetch]') , 'visible' )
             break
     }
+
 }
 
 var init = function( models ){

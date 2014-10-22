@@ -1,3 +1,8 @@
+
+var encodeAuth = function( login , password ){
+    return 'Basic '+btoa( login+':'+password );
+}
+
 /*
  * simple hxr wrapper
  * @return {Promise}
@@ -8,7 +13,7 @@ var request = function( url , options ){
 
     if( options.login && options.password )
         ( options.headers = options.headers || {} )[ 'Authorization' ] = encodeAuth( options.login , options.password )
-        
+
     return new Promise(function(resolve,rejected){
 
         var success = function( rep ){
@@ -41,24 +46,6 @@ var request = function( url , options ){
 }
 
 
-var fetch = function( url , options ){
-    return get( url , options )
-
-    .then(function( result ){
-
-        return result
-
-        .split('BEGIN:VCARD').slice(1)
-
-        .map(function( string ){
-            return CardDAVParser.parse( string )
-        })
-    })
-}
-
-var encodeAuth = function( login , password ){
-    return 'Basic '+btoa( login+':'+password );
-}
 
 
 var get = function( url , options ){
@@ -78,7 +65,7 @@ var post = function( url , options ){
 
 var fakeGet = function( url , options ){
     return new Promise(function(resolve,rejected){
-        setTimeout( function(){ 
+        setTimeout( function(){
 
             if( url.substr(-4) !== '.vcf' )
                 return resolve(fakeIndex)
@@ -92,15 +79,14 @@ module.exports = {
     put : put,
     post : post,
     get : get,
-    encodeAuth : encodeAuth,
 
-    fetch : fetch
+    request:request
 }
 
 
 
 
-var fakeIndex = 
+var fakeIndex =
 [
 '<html><head>',
   '<title>Index for addressbooks/arthur/contacts/ - SabreDAV 1.7.6-stable</title>',

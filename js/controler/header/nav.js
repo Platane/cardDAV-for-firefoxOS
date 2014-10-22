@@ -13,6 +13,13 @@ var requestChangeState = function( e ){
     this.model.app.state = e.currentTarget.getAttribute('data-action')
     this.model.app.hasChanged()
 }
+var requestFetch = function( e ){
+    this.model.app.state = 'merger'
+    this.model.app.hasChanged()
+
+    this.model.app
+    .fetch()
+}
 
 var enable = function(){
 
@@ -22,11 +29,18 @@ var enable = function(){
         requestChangeState.bind(this)
     )
 
+    dom.bind(
+        this.dom.querySelector('[data-action=fetch]'),
+        'click',
+        requestFetch.bind(this)
+    )
+
     return this
 }
 
 var disable = function(){
     dom.unbind( this.dom.querySelector('[data-action=setting]') , 'click')
+    dom.unbind( this.dom.querySelector('[data-action=fetch]') , 'click')
 
     return this
 }

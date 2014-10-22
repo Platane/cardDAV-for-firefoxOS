@@ -4,6 +4,7 @@ var Abstract = require('../utils/Abstract')
   , dom = require('../utils/domHelper')
 
   , settingView = require('../view/setting')
+  , mergerView = require('../view/merger')
   , headerView = require('../view/header')
 
 var tpl = [
@@ -24,6 +25,7 @@ var updateState = function(){
     var nextView;
     switch( this.model.app.state ){
         case 'setting' :
+        case 'merger' :
             nextView = this.model.app.state
             break
     }
@@ -59,7 +61,8 @@ var init = function( models ){
     }
 
     this.view = {
-        setting : Object.create( settingView ).init( models )
+        setting : Object.create( settingView ).init( models ),
+        merger : Object.create( mergerView ).init( models ),
     }
 
     initElement.call(this)

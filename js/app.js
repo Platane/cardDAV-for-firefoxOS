@@ -18,6 +18,7 @@ settingModel.init()
 
 appModel.init()
 appModel.state = 'setting'
+appModel.setting = settingModel
 
 
 localStorage.init({
