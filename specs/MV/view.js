@@ -1,4 +1,4 @@
-var View = require('../../js/view/Abstract')
+var View = require('../../js/view/sync-updatable')
   , Model = require('../../js/model/Abstract')
   , scheduler = require('../../js/model/scheduler')
 
@@ -9,7 +9,7 @@ describe('view :' , function(){
 
         scheduler.unlisten()
 
-        this.view = Object.create( View ).init()
+        this.view = Object.create( View )
         this.model = Object.create( Model ).init()
     })
 

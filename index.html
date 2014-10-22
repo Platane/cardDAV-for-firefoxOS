@@ -3,7 +3,7 @@
     </body>
     <head>
         <script src="js/bundle.js"></script>
-        
+
         <link rel="stylesheet" href="style/Building-Blocks/fonts.css">
         <link rel="stylesheet" href="style/Building-Blocks/util.css">
         <link rel="stylesheet" href="style/Building-Blocks/transitions.css">
@@ -20,5 +20,13 @@
         <link rel="stylesheet" href="style/Building-Blocks/components/input_areas.css">
         <link rel="stylesheet" href="style/Building-Blocks/components/buttons.css">
         <link rel="stylesheet" href="style/Building-Blocks/components/layout.css">
+
+        <style>
+            section[role="region"] > header:first-child  menu[type="toolbar"] a[data-action]{
+                display : none;
+            }
+            section[role="region"] > header:first-child  menu[type="toolbar"] a[data-action].visible{
+                display : block;
+            }
     </head>
 </html>

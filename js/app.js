@@ -2,36 +2,38 @@
 var transport = require('./work/transport')
   , cardDavListParser = require('./work/cardDAVListParser')
   , localContactProxy = require('./work/localContactProxy')
-  , localStorage = require('./work/parametersLocalStorage')
+  , localStorage = require('./work/settingLocalStorage')
 
   , appView = Object.create( require('./view/app') )
-  , parametersView = Object.create( require('./view/parameters') )
 
   , scheduler = require('./model/scheduler')
-  , appModel = Object.create( require('./model/App') )
-  , parametersModel = Object.create( require('./model/parameters') )
+  , appModel = Object.create( require('./model/app') )
+  , settingModel = Object.create( require('./model/setting') )
 
 
 
 scheduler.init()
 
+settingModel.init()
+
 appModel.init()
-appModel.state = 'parameters'
+appModel.state = 'setting'
 
 
 localStorage.init({
-        parameters : parametersModel
+        setting : settingModel
     })
     .hydrate()
     .on()
 
 
-parametersView
-    .init({
-        parameters : parametersModel
-    })
-    .on()
+
 
 window.onload=function(){
-    document.body.appendChild( parametersView.dom )
+    appView
+        .init({
+            setting : settingModel,
+            app : appModel
+        })
+        .on()
 }

@@ -3,18 +3,18 @@ var Abstract = require('../utils/Abstract')
 var init = function( models ){
 
     this.model = {
-        parameters : models.parameters
+        setting : models.setting
     }
 
     return this
 }
 
 var on = function(){
-    this.model.parameters.listen( save.bind(this) , this )
+    this.model.setting.listen( save.bind(this) , this )
     return this
 }
 var off = function(){
-    this.model.parameters.unlisten( this )
+    this.model.setting.unlisten( this )
     return this
 }
 
@@ -28,9 +28,9 @@ var save = function(){
     var o=Object.create(attr)
 
     for(var i in o )
-        o[i] = this.model.parameters[i]
+        o[i] = this.model.setting[i]
 
-    localStorage.setItem( 'parameters' , JSON.stringify(o) )
+    localStorage.setItem( 'setting' , JSON.stringify(o) )
 
     return this
 }
@@ -39,15 +39,15 @@ var hydrate = function(){
 
     var o
 
-    if( !localStorage || !(o = localStorage.getItem( 'parameters' ) ) )
+    if( !localStorage || !(o = localStorage.getItem( 'setting' ) ) )
         return this
 
     o = JSON.parse( o )
 
     for(var i in attr )
-        this.model.parameters[ i ] = o[i]
+        this.model.setting[ i ] = o[i] || ''
 
-    this.model.parameters.hasChanged()
+    this.model.setting.hasChanged()
 
     return this
 }

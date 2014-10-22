@@ -1,6 +1,10 @@
-var AbstractView = require('./Abstract')
+var Abstract = require('../utils/Abstract')
+  , updatable = require('./sync-updatable')
+  , controlable = require('./controlable')
+
   , dom = require('../utils/domHelper')
 
+  , propertiesControler = require('../controler/setting/properties')
 
 var tpl = [
 /*
@@ -57,39 +61,22 @@ var initElement = function(){
     this._domInputs = this.dom.querySelectorAll( '[data-property]' )
 }
 
-var propertyChanged = function( e ){
-    var property = e.currentTarget.getAttribute('data-property'),
-        value = e.currentTarget.value
-
-    if( this.model.parameters[ property ] == value )
-        return
-
-    this.model.parameters[ property ] = value
-
-    this.model.parameters.hasChanged()
-}
-
 var updateProperties = function(){
 
     for(var i=this._domInputs.length;i--;)
-        this._domInputs[i].value = this.model.parameters[ this._domInputs[i].getAttribute('data-property') ]
+        this._domInputs[i].value = this.model.setting[ this._domInputs[i].getAttribute('data-property') ]
 
 }
 
 var on = function(){
 
-    var cb = propertyChanged.bind(this)
+    this.planUpdate( this.model.setting , updateProperties.bind(this) , this  )
 
-    for(var i=this._domInputs.length;i--;)
-        dom.bind( this._domInputs[i] , 'change' , cb )
-
-    this.planUpdate( this.model.parameters , updateProperties.bind(this) , this  )
+    updateProperties.call(this)
 
     return this
 }
 var off = function(){
-    for(var i=this._domInputs.length;i--;)
-        dom.unbind( this._domInputs[i] , 'change' )
 
     this.unplanUpdate( this  )
 
@@ -98,22 +85,24 @@ var off = function(){
 
 
 
-var init = function( model ){
+var init = function( models ){
 
-    AbstractView.init.call( this )
+    controlable.init.call( this )
 
     this.model = {
-        parameters : model.parameters
+        setting : models.setting
     }
 
     initElement.call( this )
 
-    updateProperties.call(this)
+    this.controler.properties = Object.create( propertiesControler ).init( models , this.dom )
 
     return this
 }
 
-module.exports = Object.create( AbstractView )
+module.exports = Object.create( Abstract )
+.extend( controlable )
+.extend( updatable )
 .extend({
     init : init,
     on : on,
