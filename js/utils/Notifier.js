@@ -19,7 +19,7 @@ var unlisten = function( keyOrFn ){
     return this
 }
 var hasChanged = function(){
-    for(var i=this._listener.length;i--;)
+    for(var i=(this._listener||[]).length;i--;)
         this._listener[i].fn( this )
 
     return this

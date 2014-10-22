@@ -62,16 +62,4 @@ module.exports = Object.create( Abstract ).extend({
     		if( i & this._upflags )
     			this.flags[i].fn()
     },
-
-    _domify:(function(){
-        if( !typeof document != 'object' )
-            return function(){}
-        var tank = document.createElement('div')
-        return function( tpl ){
-            tank.innerHTML = tpl
-            var domEl = tank.children[ 0 ]
-            tank.innerHTML = ''
-            return domEl
-        }
-    })()
 })

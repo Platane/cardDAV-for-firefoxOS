@@ -1,4 +1,5 @@
 var AbstractView = require('./Abstract')
+  , dom = require('../utils/domHelper')
 
 
 var tpl = [
@@ -15,7 +16,7 @@ var tpl = [
 
 
 var initElement = function(){
-    this.dom = this._domify( tpl )
+    this.dom = dom.domify( tpl )
 }
 
 var init = function(){

@@ -2,25 +2,36 @@
 var transport = require('./work/transport')
   , cardDavListParser = require('./work/cardDAVListParser')
   , localContactProxy = require('./work/localContactProxy')
+  , localStorage = require('./work/parametersLocalStorage')
 
   , appView = Object.create( require('./view/app') )
+  , parametersView = Object.create( require('./view/parameters') )
 
   , scheduler = require('./model/scheduler')
   , appModel = Object.create( require('./model/App') )
+  , parametersModel = Object.create( require('./model/parameters') )
 
-try{
 
 
 scheduler.init()
 
 appModel.init()
-
-appView.init({
-    app:appModel
-})
+appModel.state = 'parameters'
 
 
-}
-catch( e ){
-    console.log("error", e.message , e)
+localStorage.init({
+        parameters : parametersModel
+    })
+    .hydrate()
+    .on()
+
+
+parametersView
+    .init({
+        parameters : parametersModel
+    })
+    .on()
+
+window.onload=function(){
+    document.body.appendChild( parametersView.dom )
 }
