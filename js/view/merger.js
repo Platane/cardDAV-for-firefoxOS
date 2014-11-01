@@ -33,7 +33,8 @@ var init = function( models ){
     controlable.init.call( this )
 
     this.model = {
-        setting : models.setting
+        setting : models.setting,
+        deck : models.deck
     }
 
     initElement.call( this )

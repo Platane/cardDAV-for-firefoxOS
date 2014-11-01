@@ -4,7 +4,8 @@ var Abstract = require('../../utils/Abstract')
 var init = function( models , dom ){
     this.dom = dom
     this.model = {
-        app : models.app
+        app : models.app,
+        deck : models.deck
     }
     return this
 }
@@ -17,7 +18,7 @@ var requestFetch = function( e ){
     this.model.app.state = 'merger'
     this.model.app.hasChanged()
 
-    this.model.app
+    this.model.deck
     .fetch()
 }
 

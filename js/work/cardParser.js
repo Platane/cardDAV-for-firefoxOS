@@ -1,3 +1,5 @@
+var cardModel = require('../model/card')
+
 var parse = (function(){
 
     var parseLine = function( line ){
@@ -52,7 +54,7 @@ var parse = (function(){
 
     return function( string , card ){
 
-        card = card ||  Object.create( cardDAV )
+        card = card ||  Object.create( cardModel )
 
         string.split('\n')
 
@@ -98,7 +100,7 @@ var parse = (function(){
 
 })()
 
-var stringify = function( cardDav ){
+var stringify = function( card ){
 
 }
 
@@ -110,4 +112,3 @@ module.exports = {
 
 
 // http://tools.ietf.org/html/rfc6352
-

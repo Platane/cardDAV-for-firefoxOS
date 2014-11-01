@@ -63,24 +63,31 @@ var post = function( url , options ){
     return request( url , options )
 }
 
-var fakeGet = function( url , options ){
+var mockRequest = function( url , options ){
+    options = options || {}
+
     return new Promise(function(resolve,rejected){
         setTimeout( function(){
 
-            if( url.substr(-4) !== '.vcf' )
-                return resolve(fakeIndex)
+            switch( options.verb ){
+                    case 'GET' :
+                    default :
+                        return resolve(fakeIndex)
+                }
 
 
-        } , 1000 )
+        } , (Math.random()*1000+100)<<0 )
     })
 }
+
 
 module.exports = {
     put : put,
     post : post,
     get : get,
 
-    request:request
+    //request:request
+    request:mockRequest
 }
 
 

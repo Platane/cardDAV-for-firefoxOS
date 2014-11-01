@@ -24,19 +24,23 @@ var Abstract = require('../utils/Abstract')
 
 var copy = function( o ){
 
+	o=o||{}
+
 	//copy tel
 	this.tel = {}
 	for( var i in o.tel||{} )
 		this.tel[i] = o.tel[i]
 
 	// copy category
-	this.category = o.category.split()
+	this.category = (o.category||[]).slice()
 
 	this.photo = o.photo
 
 	this.email = o.email
 
 	this.lastModified = new Date( o.lastModified || 0 )
+
+	return this
 }
 
 

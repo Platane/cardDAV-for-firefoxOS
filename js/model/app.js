@@ -1,17 +1,10 @@
 var Abstract = require('./Abstract')
+  , notifier = require('../utils/Notifier')
 
-var fetch = function(){
-
-    
-
-
-
-
-}
 
 
 module.exports = Object.create( Abstract )
+.extend(notifier)
 .extend({
-    state : '',
-    fetch : fetch
+    state : ''
 })
