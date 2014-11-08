@@ -8,13 +8,15 @@ var transport = require('./work/transport')
   , scheduler = require('./model/scheduler')
   , appModel = Object.create( require('./model/app') )
   , settingModel = Object.create( require('./model/setting') )
+  , strategyModel = Object.create( require('./model/strategy') )
   , deckModel = Object.create( require('./model/deck') )
 
 
 var modelBall = {
     app:appModel,
     setting:settingModel,
-    deck:deckModel
+    deck:deckModel,
+    strategy:strategyModel,
 }
 
 scheduler.init()

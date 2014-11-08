@@ -19,6 +19,11 @@ var Abstract = require('../utils/Abstract')
 	 *     ...
 	 *  ]
 	 *
+	 * name {
+	 *  first
+	 *  surt
+     * }
+	 *
 	 *  photo
 	 */
 
@@ -38,7 +43,14 @@ var copy = function( o ){
 
 	this.email = o.email
 
-	this.lastModified = new Date( o.lastModified || 0 )
+	this.name = {
+		first : o.name.first,
+		last : o.name.last
+	}
+
+	this.lastModified = new Date( 0|o.lastModified )
+
+	this.id = o.id
 
 	return this
 }

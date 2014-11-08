@@ -40,12 +40,18 @@ var updateState = function(){
         case 'setting' :
             dom.removeClass( this.dom.querySelector('[data-action=fetch]') , 'visible' )
             break
+        case 'merger' :
+            dom.removeClass( this.dom.querySelector('[data-action=setting]') , 'visible' )
+            break
     }
 
     //clean up the previous state
     switch( newState ){
         case 'setting' :
             dom.addClass( this.dom.querySelector('[data-action=fetch]') , 'visible' )
+            break
+        case 'merger' :
+            dom.addClass( this.dom.querySelector('[data-action=setting]') , 'visible' )
             break
     }
 

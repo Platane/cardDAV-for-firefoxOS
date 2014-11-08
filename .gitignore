@@ -1,5 +1,6 @@
 .tmp
 node_modules
 npm-debug.log
-bundle.js
+js/bundle.js
+css/bundle.css
 Building-Blocks

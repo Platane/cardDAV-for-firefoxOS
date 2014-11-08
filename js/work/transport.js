@@ -86,8 +86,8 @@ module.exports = {
     post : post,
     get : get,
 
-    //request:request
-    request:mockRequest
+    request:request
+    //request:mockRequest
 }
 
 

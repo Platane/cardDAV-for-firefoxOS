@@ -1,6 +1,65 @@
-var computeLikehood = function( A , B ){
-    return Infinity
+// if very likely close to 0
+// same is zero
+var computeLikehood = (function(){
+
+    var formatNumber = function(a){
+        return a.replace( /([^\d])/g, '' )
+    }
+
+    var numberLikeHood = function( a , b ){
+        if( a == b )
+            return 0
+        if( formatNumber( a ) == formatNumber( b ) )
+            return 1
+        return Infinity
+    }
+
+    var stringLikeHood = function( a , b ){
+        if( a==b )
+            return 0
+
+        a = a.toLowerCase()
+        b = b.toLowerCase()
+
+        if( a==b )
+            return 0.5
+
+        return Infinity
+    }
+
+    var nameLikeHood = function( a , b ){
+        return Math.max(
+            stringLikeHood( a.first , b.first ) ,
+            stringLikeHood( a.last , b.last )
+        )
+    }
+
+    return function( a , b ){
+
+        var exactSame=true, score=Infinity
+
+        // name
+        var n = nameLikeHood( a.name , b.name );
+        exactSame = exactSame && !n
+        score = Math.min( score , n )
+
+
+        // tel
+
+
+        // photo
+        exactSame = exactSame && (a.photo == b.photo)
+
+        return score + (+!exactSame)*0.1
+    }
+})()
+
+var computeGlobalLikehood = function( a , b ){
+    var diff = computeLikehood( a , b )
+
+    return diff
 }
+
 
 var sort = function( listA , listB , options ){
 
@@ -8,20 +67,14 @@ var sort = function( listA , listB , options ){
 
     var Container = options.Container || Array
 
-    // nop
-    if( options.weak === 0 ){
-        var tmp = listA
-        listA = listB
-        listB = tmp
-    }
-
-    // A is the ref, 
-    var same                = new Container,
-        sameIdConflict      = new Container,
-        asChanged           = new Container,
-        asChangedIdConflict = new Container,
-        added               = new Container,
-        removed             = new Container
+    // A is the ref,
+    // some X as been added to B to make A
+    var same                = new Container(),
+        sameIdConflict      = new Container(),
+        asChanged           = new Container(),
+        asChangedIdConflict = new Container(),
+        added               = new Container(),
+        removed             = new Container()
 
 
 
@@ -34,20 +87,22 @@ var sort = function( listA , listB , options ){
             A = listA[i],
             B
 
-
         for( var j=listB.length;j--;){
 
+            B=listB[j]
+
             // the id match
-            idMatch = A.id && (B=listB[j]).id == A.id 
+            idMatch = A.id && B.id == A.id
 
             // compute the likehood score
             likehood = computeLikehood( A , B )
 
-            if( idMatch || likehood <= Infinity )
+            // if the id match, or if they are pretty much the same ( likehood close to 0 )
+            if( idMatch || likehood <= 3 )
                 break
         }
 
-
+        // a peer as been found
         if( j>=0 ){
 
             var couple = [A,B]
@@ -90,6 +145,61 @@ var sort = function( listA , listB , options ){
     }
 }
 
-module.exports = { 
-    sort : sort
+var merge = function( sorted , strategy , options ){
+
+    options = options || {}
+
+    var Container = options.Container || Array
+
+    var remote = 0,
+        local = 1
+
+    var change       = new Container(),
+        add          = new Container(),
+        remove       = new Container(),
+        same         = new Container()
+
+    for( var i=sorted.sameIdConflict.length;i--;)
+        same.push({
+            remote : sorted.sameIdConflict[i][remote],
+            local  : sorted.sameIdConflict[i][local ],
+            trunk  : sorted.sameIdConflict[i][remote],
+            idConflict : true
+        })
+
+    for( var i=sorted.same.length;i--;)
+        same.push({
+            remote : sorted.same[i][remote],
+            local  : sorted.same[i][local ],
+            trunk  : sorted.same[i][remote],
+        })
+
+
+    /// TODO, apply strategy
+    for( var i=sorted.asChanged.length;i--;)
+        change.push({
+            remote : sorted.asChanged[i][remote],
+            local  : sorted.asChanged[i][local ],
+            trunk  : sorted.asChanged[i][remote],
+        })
+
+    for( var i=sorted.asChangedIdConflict.length;i--;)
+        change.push({
+            remote : sorted.asChangedIdConflict[i][remote],
+            local  : sorted.asChangedIdConflict[i][local ],
+            trunk  : sorted.asChangedIdConflict[i][remote],
+            idConflict : true
+        })
+
+    return {
+        same: same,
+        add: add,
+        remove: remove,
+        change: change
+    }
+}
+
+module.exports = {
+    sort : sort,
+    merge : merge
 }

@@ -71,7 +71,7 @@ var parse = (function(){
                 continue
 
             o.push({
-                id : a.innerHTML,
+                id : a.innerHTML.substr(0,-4),
                 lastModified : parseDate( tds[4].innerHTML )
             })
         }

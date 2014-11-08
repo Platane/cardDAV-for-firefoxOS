@@ -1,6 +1,9 @@
 var Abstract = require('./Abstract')
   , notifier = require('../utils/Notifier')
-  , remoteProxy = require('../work/remoteContactProxy')
+  //, remoteProxy = require('../work/remoteContactProxy')
+  , remoteProxy = require('../work/fakeProxy')('remote','mixed')
+  , localProxy =require('../work/fakeProxy')('local','mixed')
+  , solver = require('../work/solver')
 
 
 var remoteFetchingOver = function( remotes ){
@@ -14,12 +17,29 @@ var remoteFetchingOver = function( remotes ){
     merge.call( this )
 }
 
+var localFetchingOver = function( locals ){
+
+    this._pendingLocalFecting = false
+
+    this.locals = locals
+
+    this.hasChanged()
+
+    merge.call( this )
+}
+
 var merge = function(){
 
-    if( this._pendingRemoteFecting || this._pendingRemoteFecting )
+    if( this._pendingRemoteFecting || this._pendingLocalFecting )
         return this
 
-    // try to merge
+    // sort into named categorized
+    this.sorted = solver.sort( this.remotes , this.locals )
+    this.hasChanged()
+
+    // merge according to strategy
+    this.merged = solver.merge( this.sorted , this.stategy )
+    this.hasChanged()
 }
 
 var fetch = function(){
@@ -37,8 +57,13 @@ var fetch = function(){
     })
     .then(remoteFetchingOver.bind(this))
 
-
-    // fetch local
+    localProxy
+    .fetchAll({
+        url : setting.url,
+        login : setting.login,
+        password : setting.password
+    })
+    .then(localFetchingOver.bind(this))
 
     return this
 }
@@ -46,6 +71,7 @@ var fetch = function(){
 var init = function( models ){
     this.app = models.app
     this.setting = models.setting
+    this.stategy = models.strategy
 
     return this
 }

@@ -12,7 +12,13 @@
 
   "devDependencies" : {
     "jasmine-node" : "git://github.com/mhevery/jasmine-node.git#Jasmine2.0",
-    "browserify" : "*"
+    "browserify" : "*",
+    "less" :"*",
+    "gulp" : "*",
+    "gulp-watch" : "*",
+    "gulp-autoprefixer" : "*",
+    "gulp-rename" : "*",
+    "gulp-browserify" : "*"
   },
 
   "scripts" : {

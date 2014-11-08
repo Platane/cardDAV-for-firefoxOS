@@ -1,39 +1,25 @@
 var solver = require('../../js/work/solver.js')
+  , samples = require('../../test/samples.js')
 
-describe('sync solver',function(){
+describe('solver :',function(){
 
-	describe('exact same entity',function(){
+	for( var i=samples.length;i--;)
+		(function(i){
+			var sample = samples[i]
+			var repartitionLiteral = ''
+			for( var i in sample.expect||{})
+				repartitionLiteral += ' '+i+':'+sample.expect[i]
+			describe( sample.label ,function(){
 
-		beforeEach(function(){
+				beforeEach(function(){
+					this.s = solver.sort( sample.remote , sample.local )
+				})
 
-			this.listA = [
-				{ id:'5a6446' , tel : { 'CELL' : '06 85 75 52 63' }  }
-			]
-
-			this.listB = [
-				{ id:'5a6446' , tel : { 'CELL' : '06 85 75 52 63' }  }
-			]
-
-		})
-
-		beforeEach(function(){
-
-			this.res = solver.sort( this.listA , this.listB )
-
-		})
-
-		xit('should be sorted as same',function(){
-			for( var i in this.res )
-				switch( i ){
-					case 'same' :
-						expect( this.res[i].length ).toBe( 1 )
-						expect( this.res[i][0][0].id ).toBe( '5a6446' )
-					break
-					default :
-						expect( this.res[i].length ).toBe( 0 )
-				}
-		})
-
-	})
-
+				it('should have repartition '+repartitionLiteral, function(){
+					var e = sample.expect||{}
+					for( var i in this.s )
+						expect( i+':'+this.s[i].length ).toBe( i+':'+(0|e[i]) )
+				})
+			})
+		})(i)
 })
