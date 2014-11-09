@@ -19,7 +19,7 @@ var section = function( type ){
 }
 
 var tpl = [
-    '<section class="gaia-list fit scroll sticky">',
+    '<section class="">',
         '<article>',
             '<header>merger</header>',
             '<ul>',

@@ -1,3 +1,54 @@
-.class2 {
-  width: 25px
+.entry-face {
+    display : block;
+    width : 35px;
+    height : 35px;
+    border-radius : 9999px;
+    background-size : cover;
+}
+.entry-name {
+    font-size : 0.8em;
+    text-align: center;
+}
+.entry {
+    display : flex;
+    flex-direction: row;
+
+    & > *{
+        flex-grow:1;
+    }
+}
+.entry-section {
+
+    &.entry-section-trunk {
+
+        .entry-face {
+            width : 50px;
+            height : 50px;
+
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    }
+}
+.entry-face-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60px;
+    height: 50px;
+    display: block;
+    position: relative;
+    svg {
+        width: 35px;
+        height: 35px;
+        top: 0px;
+        left: 0px;
+        position: absolute;
+    }
+    .entry-face {
+        position: absolute;
+        top: 15px;
+        right:0;
+        z-index: 10;
+    }
 }

@@ -8,7 +8,7 @@ var getAll = function(){
     return new Promise(function(resolve,reject){
         window.setTimeout(function(){
             resolve(set)
-        },Math.random()*252)
+        },Math.random()*220)
     })
 }
 
