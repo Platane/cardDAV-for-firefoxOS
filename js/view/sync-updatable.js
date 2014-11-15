@@ -7,6 +7,7 @@ var triggerUpdate = function(){
     for( var i in this._flags )
         if( i & this._upflags )
             this._flags[i].fn()
+    this._upflags = 0
 }
 
 module.exports = {
@@ -50,8 +51,8 @@ module.exports = {
 
     unplanUpdate:function( key ){
         for( var i in this._flags || {} )
-            if( this._flags[i].key == key )
-                this._flags[i].model.unlisten( key )
+            if( !key || this._flags[i].key == key )
+                this._flags[i].model.unlisten( this._flags[i].key )
         return this
     },
 }

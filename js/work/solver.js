@@ -1,3 +1,5 @@
+var entry = require('../model/entry')
+
 // if very likely close to 0
 // same is zero
 var computeLikehood = (function(){
@@ -160,36 +162,36 @@ var merge = function( sorted , strategy , options ){
         same         = new Container()
 
     for( var i=sorted.sameIdConflict.length;i--;)
-        same.push({
+        same.push(Object.create( entry ).extend({
             remote : sorted.sameIdConflict[i][remote],
             local  : sorted.sameIdConflict[i][local ],
             trunk  : sorted.sameIdConflict[i][remote],
             idConflict : true
-        })
+        }))
 
     for( var i=sorted.same.length;i--;)
-        same.push({
+        same.push(Object.create( entry ).extend({
             remote : sorted.same[i][remote],
             local  : sorted.same[i][local ],
             trunk  : sorted.same[i][remote],
-        })
+        }))
 
 
     /// TODO, apply strategy
     for( var i=sorted.asChanged.length;i--;)
-        change.push({
+        change.push(Object.create( entry ).extend({
             remote : sorted.asChanged[i][remote],
             local  : sorted.asChanged[i][local ],
             trunk  : sorted.asChanged[i][remote],
-        })
+        }))
 
     for( var i=sorted.asChangedIdConflict.length;i--;)
-        change.push({
+        change.push(Object.create( entry ).extend({
             remote : sorted.asChangedIdConflict[i][remote],
             local  : sorted.asChangedIdConflict[i][local ],
             trunk  : sorted.asChangedIdConflict[i][remote],
             idConflict : true
-        })
+        }))
 
     return {
         same: same,

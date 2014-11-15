@@ -5,6 +5,8 @@ var Abstract = require('./Abstract')
   , localProxy =require('../work/fakeProxy')('local','mixed')
   , solver = require('../work/solver')
 
+  , entry = require('../model/entry')
+
 
 var remoteFetchingOver = function( remotes ){
 

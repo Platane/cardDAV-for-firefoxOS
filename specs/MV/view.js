@@ -207,6 +207,48 @@ describe('view :' , function(){
         })
 
 
+        describe('register two models, then the two models changes, then only one does :',function(){
+
+            beforeEach(function(){
+
+                //prepare the spy
+                this.fn2 = function(){}
+                spyOn( this , 'fn2' ).and.callThrough()
+
+                //other model
+                this.model2= Object.create( Model ).init()
+            })
+
+            beforeEach(function( done ){
+
+                //register
+                this.view.planUpdate( this.model , this.fn , "key" )
+                this.view.planUpdate( this.model2 , this.fn2 , "key2" )
+
+                // change
+                setTimeout( function(){
+                    this.model.hasChanged()
+                    this.model2.hasChanged()
+                    this.model.hasChanged()
+                    this.model2.hasChanged()
+                }.bind(this),100)
+
+                // change
+                setTimeout( function(){
+                    this.model.hasChanged()
+                }.bind(this),300)
+
+                // call done ( else error )
+                setTimeout( done , 500 )
+            })
+
+            it('each callback function should be called once',function(){
+                expect( this.fn.calls.count() ).toEqual(2)
+                expect( this.fn2.calls.count() ).toEqual(1)
+            })
+        })
+
+
         describe('unregister model :',function(){
 
             beforeEach(function(){

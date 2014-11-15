@@ -10,6 +10,7 @@ var transport = require('./work/transport')
   , settingModel = Object.create( require('./model/setting') )
   , strategyModel = Object.create( require('./model/strategy') )
   , deckModel = Object.create( require('./model/deck') )
+  , mergerStateModel = Object.create( require('./model/mergerState') )
 
 
 var modelBall = {
@@ -17,6 +18,7 @@ var modelBall = {
     setting:settingModel,
     deck:deckModel,
     strategy:strategyModel,
+    mergerState: mergerStateModel,
 }
 
 scheduler.init()
@@ -24,6 +26,8 @@ scheduler.init()
 settingModel.init()
 
 deckModel.init( modelBall )
+
+mergerStateModel.init( modelBall )
 
 appModel.init( modelBall )
 appModel.state = 'setting'

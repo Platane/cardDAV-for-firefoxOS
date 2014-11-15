@@ -40,7 +40,63 @@ var peoples = [
     lastModified : '1412271951',
     photo : photos[3],
     id : '4a86v66df6 875642 12213   342@$!@$ @!$%qw'
-}
+},
+{
+    name : {
+        first : 'Charles',
+        last : 'Azerin'
+    },
+    tel : {
+        CELL: '06 85 95 05 36'
+    },
+    email : 'buzzz50@eple.com',
+    lastModified : '1412261951',
+    photo : photos[2],
+    id : '4a8456294475219$%^&@!#w'
+},
+{
+    name : {
+        first : 'Clinton',
+        last : 'Boyd'
+    },
+    tel : {
+        CELL: '06 50 14 50 80',
+        HOME: '06 80 96 26 88',
+        WORK: '09 33 58 12 44'
+    },
+    email : 'superman48@y.com',
+    lastModified : '1412271971',
+    photo : photos[4],
+    id : '48aaa8a*!@*(!@))!_!@qw'
+},
+{
+    name : {
+        first : 'Miguel',
+        last : 'Brown'
+    },
+    tel : {
+        CELL: '07 16 84 10 80',
+        WORK: '06 87 58 98 68'
+    },
+    email : 'sprofyan48@rue.com',
+    lastModified : '1412171971',
+    photo : photos[5],
+    id : '48aaa8555555qw'
+},
+{
+    name : {
+        first : 'Ashley',
+        last : 'Sutton'
+    },
+    tel : {
+        CELL: '07 16 81 15 11',
+        WORK: '06 56 23 12 10'
+    },
+    email : 'ashley.sutton69@example.com',
+    lastModified : '1412171911',
+    photo : photos[6],
+    id : '48aaa11a1a@!$5qw'
+},
 ]
 
 var list = [
@@ -51,10 +107,10 @@ var list = [
     expect : {same:1}
 },
 {
-    local : [ peoples[0] , peoples[1] , peoples[2] ],
-    remote : [  peoples[0] , peoples[1] , peoples[2] ],
-    label : 'strictly same with same id three people',
-    expect : {same:3}
+    local : [ peoples[0] , peoples[1] , peoples[2] , peoples[3] ],
+    remote : [  peoples[0] , peoples[1] , peoples[2] , peoples[3] ],
+    label : 'strictly same with same id four people',
+    expect : {same:4}
 }
 ]
 
@@ -86,21 +142,37 @@ var list = [
 })()
 
 ;(function(){
-    var a = peoples[0]
-    var b = Object.create( a )
+    var a = Object.create( peoples[0] )
+    a.name = {
+        first : peoples[0].name.first+'th',
+        last : peoples[0].name.last
+    }
+    var b = Object.create( peoples[1] )
     b.name = {
-        first : a.name.first+'th',
-        last : a.name.last
+        first : peoples[1].name.first+'th',
+        last : peoples[1].name.last
+    }
+    var c = Object.create( peoples[2] )
+    c.name = {
+        first : peoples[2].name.first+'th',
+        last : peoples[2].name.last
+    }
+    var d = Object.create( peoples[6] )
+    d.name = {
+        first : peoples[6].name.first+'th',
+        last : peoples[6].name.last
+    }
+    d.tel = {
+        CELL : peoples[6].tel.CELL,
+        WORK : '06 89 42 36 99',
     }
     list.push({
-        local : [ peoples[2] , peoples[1] , a ],
-        remote : [ peoples[2] , b , peoples[1] ],
+        local : [ peoples[2] , peoples[4] , peoples[5] , peoples[1] , peoples[0] , peoples[3] , peoples[6] ],
+        remote : [ a , b , c , peoples[5] , peoples[4] , peoples[3] , d],
         label : 'mixed',
-        expect : {asChanged:1,same:2}
+        expect : {asChanged:4,same:3}
     })
 })()
-
-
 
 
 for(var i=list.length;i--;){

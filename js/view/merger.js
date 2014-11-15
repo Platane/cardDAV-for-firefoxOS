@@ -2,6 +2,8 @@ var Abstract = require('../utils/Abstract')
   , updatable = require('./sync-updatable')
   , controlable = require('./controlable')
 
+  , foldControler = require('../controler/merger/fold')
+
   , dom = require('../utils/domHelper')
 
   , entryFactory = require('./factory.js')( require('./entry.js') )
@@ -68,9 +70,18 @@ var updateEntries = function(){
 }
 
 var updateFold = function(){
-    this.dom
+    for( var i in this.entries ) {
+        setFold.call( this , i , this.model.mergerState[i].globalFold )
+        if( !this.model.mergerState[i].globalFold )
+            for(var k=this.entries[i].length;k--;)
+                this.entries[i][k].setFold( this.model.mergerState[i].unitFold[ this.entries[i][k].model.entry.remote.id ] )
+    }
 }
 
+var setFold = function(type , fold){
+    var domList = this.dom.querySelector('[data-type="'+type+'"] ul')
+    domList.style.display = fold ? 'none' : 'block'
+}
 
 var initElement = function(){
     this.dom = dom.domify( tpl )
@@ -81,19 +92,23 @@ var init = function( models ){
 
     this.model = {
         setting : models.setting,
-        deck : models.deck
+        deck : models.deck,
+        mergerState : models.mergerState,
     }
 
     initElement.call( this )
 
+    this.controler.fold = Object.create( foldControler ).init( models , this.dom )
+
     return this
 }
 var on = function(){
-    this.planUpdate( this.model.deck , updateEntries.bind(this) , this )
+    this.planUpdate( this.model.deck , updateEntries.bind(this) , 'deck' )
+    this.planUpdate( this.model.mergerState , updateFold.bind(this) , 'state' )
     return this
 }
 var off = function(){
-    this.unplanUpdate( this )
+    this.unplanUpdate()
     return this
 }
 
@@ -103,5 +118,5 @@ module.exports = Object.create( Abstract )
 .extend({
     init : init,
     on : on,
-    off : off
+    off : off,
 })
