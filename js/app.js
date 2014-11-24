@@ -12,6 +12,8 @@ var transport = require('./work/transport')
   , deckModel = Object.create( require('./model/deck') )
   , mergerStateModel = Object.create( require('./model/mergerState') )
 
+  require('./utils/shortClick')
+
 
 var modelBall = {
     app:appModel,

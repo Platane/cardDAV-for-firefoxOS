@@ -11,13 +11,17 @@ var gulp = require('gulp')
 
 
 gulp.task('browserify', function () {
-/*
+    /*
     return gulp.src( './js/app.js' )
     .pipe( browserify({
         outfile : './js/bundle.js',
         debug : true
     }))
-    .pipe(gulp.dest('../build/'))*/
+    .on('data', function(e){
+        console.log(e)
+    })
+    .pipe(gulp.dest('./js/'))
+    */
 
     exec(
         'node ./node_modules/browserify/bin/cmd.js js/app.js -o js/bundle.js --debug ' ,

@@ -25,12 +25,12 @@ var onClick = function( e ){
 }
 
 var enable = function(){
-    dom.bind( this.dom , 'click' , onClick.bind(this) )
+    dom.bind( this.dom , 'shortclick' , onClick.bind(this) )
     return this
 }
 
 var disable = function(){
-    dom.unbind( this.dom , 'click' )
+    dom.unbind( this.dom , 'shortclick' )
     return this
 }
 

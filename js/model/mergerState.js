@@ -7,7 +7,7 @@ var section = {
     init : function( a ){
         this.unitFold={}
         for(var i=(a||[]).length;i--;)
-            this.unitFold[ a[i].remote.id ] = true
+            this.unitFold[ a[i].id ] = true
         return this;
     },
     all : function( fold ){

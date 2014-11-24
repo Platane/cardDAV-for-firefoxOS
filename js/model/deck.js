@@ -7,7 +7,6 @@ var Abstract = require('./Abstract')
 
   , entry = require('../model/entry')
 
-
 var remoteFetchingOver = function( remotes ){
 
     this._pendingRemoteFecting = false
@@ -58,6 +57,9 @@ var fetch = function(){
         password : setting.password
     })
     .then(remoteFetchingOver.bind(this))
+    .then(null,function(err){
+        console.error(err.message, err.stack)
+    })
 
     localProxy
     .fetchAll({
@@ -66,6 +68,9 @@ var fetch = function(){
         password : setting.password
     })
     .then(localFetchingOver.bind(this))
+    .then(null,function(err){
+        console.error(err.message, err.stack)
+    })
 
     return this
 }

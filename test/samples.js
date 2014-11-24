@@ -97,6 +97,46 @@ var peoples = [
     photo : photos[6],
     id : '48aaa11a1a@!$5qw'
 },
+{
+    name : {
+        first : 'Vicki',
+        last : 'Roberts'
+    },
+    tel : {
+        CELL: '84 65 58 43 87',
+        WORK: '84 22 59 21 37'
+    },
+    email : 'vicki.roberts76@example.com',
+    lastModified : '1412161911',
+    photo : photos[2],
+    id : '48a45a 44a qw'
+},
+{
+    name : {
+        first : 'Alexa',
+        last : 'Arnold'
+    },
+    tel : {
+        CELL: '07 63 59 56 57'
+    },
+    email : 'alexa.arnold65@example.com',
+    lastModified : '1412161511',
+    photo : photos[1],
+    id : '48a45a 44a qw'
+},
+{
+    name : {
+        first : 'Norman',
+        last : 'Olivier'
+    },
+    tel : {
+        CELL: '08 91 77 66 02'
+    },
+    email : 'alnold65@example.com',
+    lastModified : '1412161518',
+    photo : photos[0],
+    id : '48a45a 44a qw 77'
+},
 ]
 
 var list = [
@@ -111,6 +151,18 @@ var list = [
     remote : [  peoples[0] , peoples[1] , peoples[2] , peoples[3] ],
     label : 'strictly same with same id four people',
     expect : {same:4}
+},
+{
+    local : [ ],
+    remote : [ peoples[3] ],
+    label : 'add one',
+    expect : {added:1}
+},
+{
+    local : [ peoples[3] ],
+    remote : [  ],
+    label : 'remove one',
+    expect : {removed:1}
 }
 ]
 
@@ -167,10 +219,10 @@ var list = [
         WORK : '06 89 42 36 99',
     }
     list.push({
-        local : [ peoples[2] , peoples[4] , peoples[5] , peoples[1] , peoples[0] , peoples[3] , peoples[6] ],
-        remote : [ a , b , c , peoples[5] , peoples[4] , peoples[3] , d],
+        local : [ peoples[8], peoples[7], peoples[2] , peoples[4] , peoples[5] , peoples[1] , peoples[0] , peoples[3] , peoples[6] ],
+        remote : [ peoples[9], a , b , c , peoples[5] , peoples[4] , peoples[3] , d],
         label : 'mixed',
-        expect : {asChanged:4,same:3}
+        expect : {asChanged:4,same:3,added:1,removed:2}
     })
 })()
 

@@ -13,15 +13,16 @@ var Abstract = require('../utils/Abstract')
 
 var section = function( type ){
     return [
-        '<li data-type="'+type+'" class="merger-class">',
+        '<li data-type="'+type+'" class="merger-class merger-class-'+type+'">',
             '<span class="merger-label">'+type+'</span>',
+            '<span class="merger-label-cardinality"></span>',
             '<ul></ul>',
         '</li>',
     ].join('')
 }
 
 var tpl = [
-    '<section class="">',
+    '<section class="merger">',
         '<article>',
             '<header>merger</header>',
             '<ul>',
@@ -58,10 +59,13 @@ var updateEntries = function(){
 
         var domList = domSection.querySelector('ul')
 
+        // update the cardinality
+        domSection.querySelector('.merger-label-cardinality').innerText = (newE[i]||[]).length
+
         this.entries[i]=[]
 
         for(var k=(newE[i]||[]).length;k--;){
-            var e = entryFactory.create().init({ entry: newE[i][k] })
+            var e = entryFactory.create().init({ entry: newE[i][k] }).enable().on()
             domList.appendChild( e.dom )
 
             this.entries[i].push( e )
@@ -74,7 +78,7 @@ var updateFold = function(){
         setFold.call( this , i , this.model.mergerState[i].globalFold )
         if( !this.model.mergerState[i].globalFold )
             for(var k=this.entries[i].length;k--;)
-                this.entries[i][k].setFold( this.model.mergerState[i].unitFold[ this.entries[i][k].model.entry.remote.id ] )
+                this.entries[i][k].setFold( this.model.mergerState[i].unitFold[ this.entries[i][k].model.entry.id ] )
     }
 }
 

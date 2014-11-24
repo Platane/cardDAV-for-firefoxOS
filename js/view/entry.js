@@ -3,6 +3,8 @@ var Abstract = require('../utils/Abstract')
   , updatable = require('./sync-updatable')
 
   , dom = require('../utils/domHelper')
+  , swapSourceControler = require('../controler/entry/swapSource')
+
 
 var tpl = [
     '<li class="entry">',
@@ -14,14 +16,14 @@ var tpl = [
             '</span>',
         '</span>',
 
-        '<span data-what="right-action" class="entry-action entry-right-action">\></span>',
+        '<span data-what="right-action" class="entry-action entry-local-action"></span>',
 
         '<span data-what="trunk" class="entry-section entry-section-trunk">',
             '<span data-what="face" class="entry-face"></span>',
             '<span data-what="name" class="entry-name"></span>',
         '</span>',
 
-        '<span data-what="left-action" class="entry-action entry-left-action">&times;</span>',
+        '<span data-what="left-action" class="entry-action entry-remote-action"></span>',
 
         '<span data-what="remote" class="entry-section entry-section-remote">',
             '<span class="entry-face-wrapper">',
@@ -37,7 +39,13 @@ var tpl = [
 ].join('')
 
 
+var updateTrunk = function( dom , e ){
+    dom.querySelector('[data-what="face"]')
+    .style.backgroundImage = e.photo ? 'url('+ e.photo +')' : ''
 
+    var domName = dom.querySelector('[data-what="name"]')
+    domName && ( domName.innerHTML = e.name ? e.name.first+' '+e.name.last : '' )
+}
 var updateSection = function( dom , e ){
     dom.querySelector('[data-what="face"]')
     .style.backgroundImage = e.photo ? 'url('+ e.photo +')' : ''
@@ -48,8 +56,8 @@ var updateSection = function( dom , e ){
 var updatePhoneList = function(){
     var list = this.dom.querySelector('.entry-detail-phones')
     list.innerHTML=''
-    var trunk = this.model.entry.trunk
-    for( var i in trunk.tel )
+    var trunk = this.model.entry.trunk||{}
+    for( var i in trunk.tel||{} )
         list.innerHTML+=[
             '<li>',
                 '<span class="phone-label phone-label-'+i+'">'+i+'</span>',
@@ -64,6 +72,8 @@ var update = function(){
             this.model.entry[ i ] || {}
         )
     updatePhoneList.call(this)
+
+    this.dom.className = 'entry entry-take-'+this.model.entry.take;
 }
 var setFold = function(folded){
     //var folded = this.model.state.folded
@@ -85,7 +95,7 @@ var setFold = function(folded){
 
 var initElement = function(){
     this.dom = dom.domify( tpl )
-    this.dom.setAttribute('data-id', this.model.entry.remote.id )
+    this.dom.setAttribute('data-id', this.model.entry.id )
 }
 var init = function( models ){
 
@@ -98,18 +108,35 @@ var init = function( models ){
     initElement.call( this )
     update.call( this )
 
-    //this.controler.nav = Object.create( navControler ).init( models , this.dom )
-
-    window.entry = this
+    this.controler.nav = Object.create( swapSourceControler ).init( models , this.dom )
 
     return this
 }
+var finish = function(){
+
+    this.disable().off()
+
+    return this;
+}
+
+var on = function(){
+    this.planUpdate( this.model.entry , update.bind(this) , this )
+    return this
+}
+var off = function(){
+    this.unplanUpdate( this )
+    return this
+}
+
 
 module.exports = Object.create( Abstract )
 .extend( controlable )
+.extend( updatable )
 .extend({
     init : init,
     setFold : setFold,
     folded : true,
-    finish : function(){return this}
+    finish : finish,
+    on:on,
+    off:off,
 })

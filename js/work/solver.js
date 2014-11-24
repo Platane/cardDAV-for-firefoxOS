@@ -161,37 +161,39 @@ var merge = function( sorted , strategy , options ){
         remove       = new Container(),
         same         = new Container()
 
-    for( var i=sorted.sameIdConflict.length;i--;)
+    var _same = sorted.sameIdConflict.concat( sorted.same )
+    for( var i=_same.length;i--;)
         same.push(Object.create( entry ).extend({
-            remote : sorted.sameIdConflict[i][remote],
-            local  : sorted.sameIdConflict[i][local ],
-            trunk  : sorted.sameIdConflict[i][remote],
-            idConflict : true
-        }))
-
-    for( var i=sorted.same.length;i--;)
-        same.push(Object.create( entry ).extend({
-            remote : sorted.same[i][remote],
-            local  : sorted.same[i][local ],
-            trunk  : sorted.same[i][remote],
-        }))
+            remote : _same[i][remote],
+            local  : _same[i][local ],
+            take : 'remote',
+            idConflict : i<sorted.sameIdConflict.length
+        }).buildTrunk())
 
 
     /// TODO, apply strategy
-    for( var i=sorted.asChanged.length;i--;)
+    var _change = sorted.asChangedIdConflict.concat( sorted.asChanged )
+    for( var i=_change.length;i--;)
         change.push(Object.create( entry ).extend({
-            remote : sorted.asChanged[i][remote],
-            local  : sorted.asChanged[i][local ],
-            trunk  : sorted.asChanged[i][remote],
-        }))
+            remote : _change[i][remote],
+            local  : _change[i][local ],
+            take : 'remote',
+            idConflict : i<sorted.asChangedIdConflict.length
+        }).buildTrunk())
 
-    for( var i=sorted.asChangedIdConflict.length;i--;)
-        change.push(Object.create( entry ).extend({
-            remote : sorted.asChangedIdConflict[i][remote],
-            local  : sorted.asChangedIdConflict[i][local ],
-            trunk  : sorted.asChangedIdConflict[i][remote],
-            idConflict : true
-        }))
+    for( var i=sorted.added.length;i--;)
+        add.push(Object.create( entry ).extend({
+            remote : sorted.added[i],
+            local  : null,
+            take : 'remote'
+        }).buildTrunk())
+
+    for( var i=sorted.removed.length;i--;)
+        remove.push(Object.create( entry ).extend({
+            remote : null,
+            local  : sorted.removed[i],
+            take : 'remote'
+        }).buildTrunk())
 
     return {
         same: same,

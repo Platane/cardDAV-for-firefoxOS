@@ -13,6 +13,7 @@ var tpl = [
         '<menu type="toolbar">',
             '<a href="#" data-action="fetch" ><span class="icon icon-down">fetch</span></a>',
             '<a href="#" data-action="setting" ><span class="icon icon-options">settings</span></a>',
+            '<a href="#" data-action="up" ><span class="icon icon-up">up</span></a>',
         '</menu>',
         '<h1>app</h1>',
     '</header>',
@@ -42,6 +43,7 @@ var updateState = function(){
             break
         case 'merger' :
             dom.removeClass( this.dom.querySelector('[data-action=setting]') , 'visible' )
+            dom.removeClass( this.dom.querySelector('[data-action=up]') , 'visible' )
             break
     }
 
@@ -52,6 +54,7 @@ var updateState = function(){
             break
         case 'merger' :
             dom.addClass( this.dom.querySelector('[data-action=setting]') , 'visible' )
+            dom.addClass( this.dom.querySelector('[data-action=up]') , 'visible' )
             break
     }
 
