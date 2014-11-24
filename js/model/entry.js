@@ -1,7 +1,7 @@
 var Abstract = require('../utils/Abstract')
   , Notifier = require('../utils/Notifier')
 
-  , Card = require('../model/Card')
+  , Card = require('../model/card')
 
 var id=0;
 
